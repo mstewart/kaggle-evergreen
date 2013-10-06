@@ -1,0 +1,8 @@
+
+rpart module: build binary classification trees.
+http://en.wikibooks.org/wiki/Data_Mining_Algorithms_In_R/Classification/Decision_Trees#Rpart
+
+plot, print : work on general data types
+
+values / factors: an enum-like datatype in R.
+

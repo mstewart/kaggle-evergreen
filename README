@@ -1,2 +1,21 @@
 Working on the Kaggle StumbleUpon evergreen classification challenge: http://www.kaggle.com/c/stumbleupon
 
+1. Apply SVM using pre-existing features supplied.
+(Put all data points into a vector space, draw a best-fit plane separating the datapoints of each classification.)
+Probably not going to give good results here but a good exercise.
+
+
+2. Principal component discriminant analysis:
+See if a single feature dominates the result.
+(Oscar says this is isomorphic to LU decomposition - need to look at an example of this.)
+
+
+3. Extract additional features from the raw text.
+Word frequency - see if there are words which are indicators of evergreen-ness.
+
+
+4. Pull apart the url.
+Definitely domain and non-domain.
+
+
+5. CART: An algorithm for building binary classification trees.

@@ -1,28 +1,39 @@
-df <- read.table(file.choose(), sep="\t", header=TRUE )
-
-names(df)
-hist(df$avglinksize)
-
-hist(df$label)
-n.words <- factor(df$numwords_in_url)
-levels(n.words)
+# Explore the various data sets available
+#
 library(rpart);
-df.Tree <- df[,c( -2 ,-3, -4)]
+source("src/exploreFunctions.R")
+df.labeled <- read.table("data/train.tsv", sep="\t", header=TRUE )
 
-df.Tree$url
-domains <- strsplit(as.character(df.Tree$url), "://", fixed=TRUE)
+names(df.labeled)
+summary(df.labeled)
+hist(df.labeled[, 'avglinksize'])
+
+hist(df.labeled[,'label'])
+table(df.labeled$label)
+
+n.words <- factor(df.labeled[,'numwords_in_url'])
+levels(n.words)
+
+## Data set for Decision Tree Analysis
+df.Tree <- df.labeled[,c( -1,-2 ,-3, -4)]
+
+
+### Get the domains out of the url
+domains <- strsplit(as.character(df.labeled[,'url']), "://", fixed=TRUE)
+
 domains <- lapply(domains , function(x){
   url <- unlist(x[2])
   domain <- strsplit(url , "/" , fixed=TRUE)
-  domain <- unlist(domain[[1]])
+  print(length(domain[[1]]))
+  domain <- unlist(domain[[1]]) 
   return(domain[[1]])
   })
 
-selection <- which(df.Tree$alchemy_category_score == "?")
-df.Tree$alchemy_category_score = as.numeric(as.character(df.Tree$alchemy_category_score))
-df.Tree$alchemy_category_score[selection] <- 0.0 
+df.Tree[,'domain'] <- unlist(domains)
+df.Tree[,'alchemy_category_score'] <- questionmarkToValue(df.Tree[,'alchemy_category_score'], '?')
+
+## Use classifier tree
 classifier.tree <-rpart(label ~ . , data=df.Tree,  method="class", control=rpart.control(minsplit=1));
 plot(classifier.tree)
 text(classifier.tree, use.n=TRUE)
-sort(df$alchemy_category_score)
 

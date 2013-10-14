@@ -2,7 +2,7 @@
 #
 library(rpart);
 source("src/exploreFunctions.R")
-df.labeled <- read.table("data/train.tsv", sep="\t", header=TRUE )
+df.labeled <- read.table("data/train-ag.tsv", sep="\t", header=TRUE )
 
 names(df.labeled)
 summary(df.labeled)
